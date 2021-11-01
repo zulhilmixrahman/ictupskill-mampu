@@ -2,7 +2,7 @@
 // Reference: https://www.php.net/manual/en/pdo.connections.php
 try {
     $db_host = 'localhost';
-    $db_name = '';
+    $db_name = 'mampu';
     $db_user = 'root';
     $db_pass = '';
 
