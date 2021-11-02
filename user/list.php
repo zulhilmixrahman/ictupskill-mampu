@@ -9,6 +9,14 @@ $users = $sql->fetchAll();
 <div class="container p-0">
     <h1 class="h3 mb-3">Senarai Pengguna</h1>
 
+    <div class="row mb-2">
+        <div class="col text-end">
+            <a href="/user/create.php" class="btn btn-primary">
+            Tambah
+        </a>
+        </div>
+    </div>
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -26,8 +34,8 @@ $users = $sql->fetchAll();
                 <td><?php echo $pengguna['email'] ?></td>
                 <td class="text-center">
                     <a href="/user/show.php?id=<?php echo $pengguna['id'] ?>" class="btn btn-success">Papar</a>
-                    <a href="#" class="btn btn-warning">Kemaskini</a>
-                    <a href="#" class="btn btn-danger">Hapus</a>
+                    <a href="/user/edit.php?id=<?php echo $pengguna['id'] ?>" class="btn btn-warning">Kemaskini</a>
+                    <a href="/user/delete.php?id=<?php echo $pengguna['id'] ?>" class="btn btn-danger">Hapus</a>
                 </td>
             </tr>
             <?php endforeach; ?>
