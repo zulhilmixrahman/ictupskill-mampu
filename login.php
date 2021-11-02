@@ -21,10 +21,10 @@
                         Log Masuk Sistem
                     </div>
                     <div class="card-body">
-                        <form method="POST">
+                        <form>
                             <div class="mb-3">
                                 <label class="form-label">Emel Pengguna</label>
-                                <input type="email" class="form-control" name="email">
+                                <input type="email" class="form-control">
                             </div>
 
                             <div class="mb-3">
