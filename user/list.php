@@ -2,18 +2,40 @@
 <?php include '../includes/header.php' ?>
 
 <?php
-$sql = $dbcon->query("SELECT * FROM users", PDO::FETCH_ASSOC);
-$users = $sql->fetchAll();
+if($_SESSION['is_admin'] == 0){
+    header('Location: /aduan/list.php');
+}
+
+if(isset($_GET['carian'])){
+    $carian = '%' . $_GET['carian'] . '%';
+} else {
+    $carian = '%';
+}
+$query = "SELECT * FROM users WHERE name LIKE :name";
+$sql = $dbcon->prepare($query);
+$sql->bindParam(':name', $carian);
+$sql->execute();
+$users = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container p-0">
     <h1 class="h3 mb-3">Senarai Pengguna</h1>
 
     <div class="row mb-2">
-        <div class="col text-end">
+        <div class="col">
+            <form class="row">
+                <div class="col">
+                    <input type="text" name="carian" class="form-control">
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-secondary">Cari</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3 text-end">
             <a href="/user/create.php" class="btn btn-primary">
             Tambah
-        </a>
+            </a>
         </div>
     </div>
 
@@ -27,9 +49,10 @@ $users = $sql->fetchAll();
             </tr>
         </thead>
         <tbody>
+            <?php $index = 1; ?>
             <?php foreach ($users as $pengguna): ?>
             <tr>
-                <td><?php echo $pengguna['id'] ?></td>
+                <td><?php echo $index++ ?></td>
                 <td><?php echo $pengguna['name'] ?></td>
                 <td><?php echo $pengguna['email'] ?></td>
                 <td class="text-center">

@@ -1,5 +1,10 @@
 <?php include '../includes/config.php' ?>
 <?php include '../includes/header.php' ?>
+<?php 
+if($_SESSION['is_admin'] == 0){
+    header('Location: /aduan/list.php');
+}
+?>
 
 <div class="container p-0">
     <h1 class="h3 mb-3">Tambah Pengguna</h1>
@@ -24,7 +29,7 @@
 
     <div class="form-group">
         <label class="form-label">Katalaluan</label>
-        <input type="text" name="katalaluan" class="form-control">
+        <input type="password" name="katalaluan" class="form-control">
     </div>
 
     <button type="submit" class="btn btn-primary">Simpan</button>

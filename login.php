@@ -1,3 +1,30 @@
+<?php 
+include 'includes/config.php';
+
+// Login Validation
+if(isset($_POST['email'])){
+    // Search user by email/username
+    $sql = $dbcon->prepare("SELECT * FROM users WHERE email = :pk");
+    $sql->bindParam(':pk', $_POST['email']);
+    $sql->execute();
+    $pengguna = $sql->fetch();
+
+    // Validate Password
+    if(password_verify($_POST['password'], $pengguna['password'])){
+        // If Valid Password, Create Session
+        session_start();
+        $_SESSION['user_id'] = $pengguna['id'];
+        $_SESSION['name'] = $pengguna['name'];
+        $_SESSION['email'] = $pengguna['email'];
+        $_SESSION['is_admin'] = $pengguna['is_admin'];
+
+        // Redirect to home
+        header('Location: /aduan/list.php');
+    } else {
+        echo "not found";
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -21,15 +48,15 @@
                         Log Masuk Sistem
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST">
                             <div class="mb-3">
                                 <label class="form-label">Emel Pengguna</label>
-                                <input type="email" class="form-control">
+                                <input type="email" name="email" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Kata Laluan</label>
-                                <input type="password" class="form-control">
+                                <input type="password" name="password" class="form-control">
                             </div>
 
                             <div class="d-flex justify-content-center">
