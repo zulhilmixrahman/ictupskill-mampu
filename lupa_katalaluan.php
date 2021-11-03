@@ -1,21 +1,21 @@
-<?php 
+<?php
 include 'includes/config.php';
 
 try {
-    if(isset($_POST['email'])){
+    if (isset($_POST['email'])) {
         // Search user by email/username
         $sql = $dbcon->prepare("SELECT * FROM users WHERE email = :email");
         $sql->bindParam(':email', $_POST['email']);
         $sql->execute();
         $pengguna = $sql->fetch();
 
-        if($pengguna){
+        if ($pengguna) {
             $token = hash('sha256', rand(10000, 99999));
             $sql = $dbcon->prepare("UPDATE users SET token = :token WHERE id = :id");
             $sql->bindParam(':token', $token);
             $sql->bindParam(':id', $pengguna['id']);
             $sql->execute();
-            
+
             // Send Email
             //Recipients
             $mail->setFrom('noreply@kpkt.gov.my', 'KPKT');

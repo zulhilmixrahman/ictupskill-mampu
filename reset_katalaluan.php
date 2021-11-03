@@ -13,41 +13,41 @@
 </head>
 
 <body>
-<?php 
-include 'includes/config.php';
+    <?php
+    include 'includes/config.php';
 
-if(!isset($_GET['token'])){
-    header('Location: /login.php');
-} else {
-    $sql = $dbcon->prepare("SELECT * FROM users WHERE token = :token");
-    $sql->bindParam(':token', $_GET['token']);
-    $sql->execute();
-    $token = $sql->fetch();
-
-    if($token == null){
-        echo '<script>alert("Invalid Token");</script>';
-        header('refresh:1; url=/login.php');
-    }
-}
-
-if(isset($_POST['password'])){
-    // Check Katalaluan == Ulang Katalaluan
-    if($_POST['password'] != $_POST['confirm_password']){
-        echo '<script>alert("Katalaluan Tidak Padan");</script>';
-        header('refresh:1;');
-    } else {
-        // Kemaskini Katalaluan
-        $new_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $sql = $dbcon->prepare("UPDATE users SET password = :newpswd, token = NULL WHERE id = :id");
-        $sql->bindParam(':newpswd', $new_password);
-        $sql->bindParam(':id', $token['id']);
-        $sql->execute();
-
-        echo '<script>alert("Katalaluan Telah Dikemaskini");</script>';
+    if (!isset($_GET['token'])) {
         header('Location: /login.php');
+    } else {
+        $sql = $dbcon->prepare("SELECT * FROM users WHERE token = :token");
+        $sql->bindParam(':token', $_GET['token']);
+        $sql->execute();
+        $token = $sql->fetch();
+
+        if ($token == null) {
+            echo '<script>alert("Invalid Token");</script>';
+            header('refresh:1; url=/login.php');
+        }
     }
-}
-?>
+
+    if (isset($_POST['password'])) {
+        // Check Katalaluan == Ulang Katalaluan
+        if ($_POST['password'] != $_POST['confirm_password']) {
+            echo '<script>alert("Katalaluan Tidak Padan");</script>';
+            header('refresh:1;');
+        } else {
+            // Kemaskini Katalaluan
+            $new_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $sql = $dbcon->prepare("UPDATE users SET password = :newpswd, token = NULL WHERE id = :id");
+            $sql->bindParam(':newpswd', $new_password);
+            $sql->bindParam(':id', $token['id']);
+            $sql->execute();
+
+            echo '<script>alert("Katalaluan Telah Dikemaskini");</script>';
+            header('Location: /login.php');
+        }
+    }
+    ?>
     <div class="container vh-100">
         <div class="row justify-content-center">
             <div class="col-6">
